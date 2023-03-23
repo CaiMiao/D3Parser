@@ -99,9 +99,9 @@ Byte* fileContents(const char* fileName, size_t* fileSize) {
 	return memory;
 }
 
-void processStlFile(MPQStlHeader* stlHeader) {
-	int count = stlHeader->entriesSize / sizeof(MPQStlEntry);
-	MPQStlEntry* pStlEntry = reinterpret_cast<MPQStlEntry*>(stlHeader + 1);
+void processStlFile(D4StlHeader* stlHeader) {
+	int count = stlHeader->entriesSize / sizeof(D4StlEntry);
+	D4StlEntry* pStlEntry = reinterpret_cast<D4StlEntry*>(stlHeader + 1);
 	for (int i = 0; i < count; i++) {
 		if (i == 48) {
 			i = i;
@@ -133,10 +133,10 @@ void processFile(const std::string& fileName) {
 	if (!contents)
 		return;
 	
-	MPQHeader* mpqHeader = (MPQHeader*) contents;
+	D4StlCompatHeader* mpqHeader = (D4StlCompatHeader*) contents;
 	std::string extension = fileName.substr(fileName.find_last_of(".") + 1);
 	if (extension == "stl") {
-		MPQStlHeader* stlHeader = reinterpret_cast<MPQStlHeader*>(mpqHeader + 1);
+		D4StlHeader* stlHeader = reinterpret_cast<D4StlHeader*>(mpqHeader + 1);
 		processStlFile(stlHeader);
 		filesMap[stlHeader->stlFileId] = fileName;
 	}
